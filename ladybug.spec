@@ -5,7 +5,7 @@ Summary:        Embedded graph database command-line client
 
 License:        MIT
 URL:            https://ladybugdb.com/
-Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v%{version}.tar.gz#/ladybug-%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++

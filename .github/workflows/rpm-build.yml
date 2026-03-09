@@ -1,0 +1,57 @@
+name: Build RPM Package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: x86_64
+            runner: ubuntu-latest
+            manylinux_image: quay.io/pypa/manylinux_2_28_x86_64
+
+          - platform: aarch64
+            runner: ubuntu-24.04-arm
+            manylinux_image: quay.io/pypa/manylinux_2_28_aarch64
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+
+      - name: Build RPM package
+        run: |
+          echo "=== Running RPM build in manylinux container ==="
+          docker run --rm \
+            -v "${{ github.workspace }}:/build" \
+            -w /build \
+            ${{ matrix.manylinux_image }} \
+            bash -c "
+              yum install -y rpm-build rpmdevtools gcc-c++ cmake make gcc-toolset-14-annobin-plugin-gcc
+              rpmdev-setuptree
+              spectool -g -R ladybug.spec
+              rpmbuild -ba ladybug.spec
+              cp -r /root/rpmbuild/RPMS /build/rpmbuild-RPMS
+              cp -r /root/rpmbuild/SRPMS /build/rpmbuild-SRPMS
+            "
+
+      - name: List built packages
+        run: |
+          echo "=== Built packages ==="
+          find "${{ github.workspace }}/rpmbuild-RPMS" "${{ github.workspace }}/rpmbuild-SRPMS" \
+            -name '*.rpm' -type f 2>/dev/null | head -20
+
+      - name: Upload RPM artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: rpm-packages-${{ matrix.platform }}
+          path: |
+            ${{ github.workspace }}/rpmbuild-RPMS/**/*.rpm
+            ${{ github.workspace }}/rpmbuild-SRPMS/**/*.rpm
