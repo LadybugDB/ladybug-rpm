@@ -58,6 +58,18 @@ if [ -e "%{buildroot}%{_prefix}/lib/liblbug.so" ] || [ -e "%{buildroot}%{_prefix
   [ -e "%{buildroot}%{_prefix}/lib/liblbug.a" ] && mv "%{buildroot}%{_prefix}/lib/liblbug.a" "%{buildroot}%{_libdir}/"
 fi
 
+# Remove cppjieba headers and dictionary data — not part of the public API.
+rm -rf %{buildroot}%{_includedir}/cppjieba
+rm -rf %{buildroot}%{_datadir}/cppjieba
+
+# Strip executable bits from installed debug sources that have no shebang
+# (third-party C/C++ source files installed under /usr/src/debug).
+# The directory may not exist when debuginfo generation is disabled.
+if [ -d "%{buildroot}/usr/src/debug" ]; then
+  find %{buildroot}/usr/src/debug -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.c" \) \
+    -perm /0111 -exec chmod a-x {} +
+fi
+
 %check
 %{buildroot}%{_bindir}/lbug --version >/dev/null || :
 
