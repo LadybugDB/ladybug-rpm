@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -55,3 +57,19 @@ jobs:
           path: |
             ${{ github.workspace }}/rpmbuild-RPMS/**/*.rpm
             ${{ github.workspace }}/rpmbuild-SRPMS/**/*.rpm
+
+  release:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: rpm-packages-*
+          merge-multiple: true
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./*.rpm
