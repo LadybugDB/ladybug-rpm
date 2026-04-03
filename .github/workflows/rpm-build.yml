@@ -54,9 +54,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rpm-packages-${{ matrix.platform }}
-          path: |
-            ${{ github.workspace }}/rpmbuild-RPMS/**/*.rpm
-            ${{ github.workspace }}/rpmbuild-SRPMS/**/*.rpm
+          path: ${{ github.workspace }}/rpmbuild-RPMS/**/*.rpm
+
+      - name: Upload SRPM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: srpm-packages-${{ matrix.platform }}
+          path: ${{ github.workspace }}/rpmbuild-SRPMS/**/*.rpm
 
   release:
     needs: build
@@ -66,7 +70,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: rpm-packages-*
+          pattern: "*-packages-*"
           merge-multiple: true
 
       - name: Upload to release
