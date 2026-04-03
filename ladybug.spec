@@ -1,5 +1,5 @@
 Name:           ladybug-cli
-Version:        0.15.1
+Version:        0.15.3
 Release:        1%{?dist}
 Summary:        Embedded graph database command-line client
 
@@ -86,6 +86,9 @@ fi
 %{_libdir}/liblbug.a
 
 %changelog
+* Thu Apr 03 2026 Arun <arun@ladybugdb.com> - 0.15.3-1
+- Update to upstream version 0.15.3
+
 * Mon Mar 09 2026 Arun <arun@ladybugdb.com> - 0.15.1-1
 - Initial RPM packaging
 - Split into CLI, runtime library, and development packages
