@@ -80,13 +80,15 @@ fi
 
 %files -n liblbug
 %{_libdir}/liblbug.so
+%{_libdir}/liblbug.so.0
+%{_libdir}/liblbug.so.0.15.3
 
 %files -n liblbug-devel
 %{_includedir}/lbug.h
 %{_libdir}/liblbug.a
 
 %changelog
-* Thu Apr 03 2026 Arun <arun@ladybugdb.com> - 0.15.3-1
+* Fri Apr 03 2026 Arun <arun@ladybugdb.com> - 0.15.3-1
 - Update to upstream version 0.15.3
 
 * Mon Mar 09 2026 Arun <arun@ladybugdb.com> - 0.15.1-1
