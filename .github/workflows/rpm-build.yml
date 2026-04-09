@@ -44,13 +44,29 @@ jobs:
               runuser -u builder -- bash -c 'cd /build && spectool -g *.spec && fedpkg mockbuild'
             "
 
+      - name: Show build log
+        if: always()
+        run: |
+          echo "=== mock build.log ==="
+          find "${{ github.workspace }}/results_"* -name 'build.log' -type f \
+            -exec sh -c 'echo "--- $1 ---"; cat "$1"' _ {} \; 2>/dev/null || echo "(no build.log found)"
+
       - name: List built packages
+        if: success()
         run: |
           echo "=== Built packages ==="
           find "${{ github.workspace }}/results_"* \
             -name '*.rpm' -type f 2>/dev/null | head -20
 
+      - name: Upload mock logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mock-logs-${{ matrix.platform }}
+          path: ${{ github.workspace }}/results_*/**/*.log
+
       - name: Upload RPM artifacts
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: rpm-packages-${{ matrix.platform }}
@@ -58,6 +74,7 @@ jobs:
           exclude: ${{ github.workspace }}/results_*/**/*.src.rpm
 
       - name: Upload SRPM artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: srpm-packages-${{ matrix.platform }}
