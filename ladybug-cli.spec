@@ -31,7 +31,7 @@ Requires:       liblbug%{?_isa} = %{version}-%{release}
 Header files and static library for building applications against Ladybug.
 
 %prep
-%autosetup -n ladybug-%{version}
+%autosetup -p1 -n ladybug-%{version}
 
 %build
 %cmake \
