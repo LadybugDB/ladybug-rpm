@@ -41,7 +41,7 @@ jobs:
               useradd -m builder
               usermod -aG mock builder
               chown -R builder:builder /build
-              runuser -u builder -- bash -c 'cd /build && fedpkg mockbuild'
+              runuser -u builder -- bash -c 'cd /build && spectool -g *.spec && fedpkg mockbuild'
             "
 
       - name: List built packages
