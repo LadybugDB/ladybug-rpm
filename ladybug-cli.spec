@@ -44,6 +44,7 @@ Header files and static library for building applications against Ladybug.
   -DBUILD_JAVA=OFF \
   -DBUILD_NODEJS=OFF \
   -DBUILD_PYTHON=OFF \
+  -DCMAKE_CXX_FLAGS="-DHAVE_INTTYPES_H=1" \
   -DCMAKE_INSTALL_LIBDIR=%{_libdir}
 %cmake_build
 
