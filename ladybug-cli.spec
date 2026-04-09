@@ -6,6 +6,7 @@ Summary:        Embedded graph database command-line client
 License:        MIT
 URL:            https://ladybugdb.com/
 Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v%{version}.tar.gz#/ladybug-%{version}.tar.gz
+Patch0:         ladybug-%{version}-fix-fixed-width-integers.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
