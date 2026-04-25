@@ -19,14 +19,18 @@ jobs:
           - platform: x86_64
             runner: ubuntu-latest
             fedora_image: fedora:41
+            fedpkg_release: f41
 
           - platform: aarch64
             runner: ubuntu-24.04-arm
             fedora_image: fedora:41
+            fedpkg_release: f41
 
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Build RPM package via fedpkg mockbuild
         run: |
@@ -41,7 +45,7 @@ jobs:
               useradd -m builder
               usermod -aG mock builder
               chown -R builder:builder /build
-              runuser -u builder -- bash -c 'cd /build && spectool -g *.spec && fedpkg mockbuild'
+              runuser -u builder -- bash -c 'cd /build && spectool -g *.spec && fedpkg --release ${{ matrix.fedpkg_release }} mockbuild'
             "
 
       - name: Show build log
