@@ -17,17 +17,17 @@ scalability.
 
 This package provides the lbug interactive shell command-line tool.
 
-%package -n liblbug
+%package -n liblbug-devel
 Summary:        Shared runtime library for Ladybug
 
-%description -n liblbug
+%description -n liblbug-devel
 Shared runtime library for Ladybug.
 
-%package -n liblbug-devel
+%package -n liblbug-static
 Summary:        Development files for Ladybug
 Requires:       liblbug%{?_isa} = %{version}-%{release}
 
-%description -n liblbug-devel
+%description -n liblbug-static
 Header files and static library for building applications against Ladybug.
 
 %prep
@@ -80,12 +80,12 @@ fi
 %doc README.md
 %{_bindir}/lbug
 
-%files -n liblbug
+%files -n liblbug-devel
 %{_libdir}/liblbug.so
 %{_libdir}/liblbug.so.0
 %{_libdir}/liblbug.so.0.15.3
 
-%files -n liblbug-devel
+%files -n liblbug-static
 %{_includedir}/lbug.h
 %{_libdir}/liblbug.a
 
