@@ -11,23 +11,53 @@ Patch0:         ladybug-%{version}-fix-fixed-width-integers.patch
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 
+# upstream builds the default CLI/library RPM targets against
+# bundled copies from third_party/ and does not currently expose switches to use
+# system copies for these dependencies. This list includes deps used by the
+# default CLI/library build and by optional extensions shipped by upstream, but
+# omits benchmark, test, and language-binding-only bundled deps.
+Provides:       bundled(alp)
+Provides:       bundled(antlr4_cypher) = 4.13.1
+Provides:       bundled(antlr4_runtime) = 4.13.1
+Provides:       bundled(brotli) = 1.1.0
+Provides:       bundled(cppjieba) = 5.6.0
+Provides:       bundled(fast_float)
+Provides:       bundled(fastpfor) = 0.1.8
+Provides:       bundled(glob)
+Provides:       bundled(httplib) = 0.14.2
+Provides:       bundled(lz4) = 1.10.0
+Provides:       bundled(mbedtls) = 3.1.0
+Provides:       bundled(miniz) = 10.0.3
+Provides:       bundled(parquet) = 0.11.0
+Provides:       bundled(pcg)
+Provides:       bundled(pyparse)
+Provides:       bundled(re2)
+Provides:       bundled(roaring_bitmap) = 4.5.1
+Provides:       bundled(simsimd) = 6.2.1
+Provides:       bundled(snappy) = 1.2.1
+Provides:       bundled(taywee_args) = 6.4.2
+Provides:       bundled(thrift)
+Provides:       bundled(utf8proc) = 2.4.0
+Provides:       bundled(yyjson) = 0.10.0
+Provides:       bundled(zstd) = 1.5.7
+
 %description
 Ladybug is an embedded graph database optimized for query speed and
 scalability.
 
 This package provides the lbug interactive shell command-line tool.
 
-%package -n liblbug
+%package -n liblbug-devel
 Summary:        Shared runtime library for Ladybug
 
-%description -n liblbug
+%description -n liblbug-devel
 Shared runtime library for Ladybug.
 
-%package -n liblbug-devel
+%package -n liblbug-static
 Summary:        Development files for Ladybug
 Requires:       liblbug%{?_isa} = %{version}-%{release}
 
-%description -n liblbug-devel
+%description -n liblbug-static
 Header files and static library for building applications against Ladybug.
 
 %prep
@@ -80,12 +110,12 @@ fi
 %doc README.md
 %{_bindir}/lbug
 
-%files -n liblbug
+%files -n liblbug-devel
 %{_libdir}/liblbug.so
 %{_libdir}/liblbug.so.0
 %{_libdir}/liblbug.so.0.15.3
 
-%files -n liblbug-devel
+%files -n liblbug-static
 %{_includedir}/lbug.h
 %{_libdir}/liblbug.a
 
