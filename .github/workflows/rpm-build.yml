@@ -30,7 +30,8 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
+            repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+            ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
       - name: Build RPM package via fedpkg mockbuild
         run: |
