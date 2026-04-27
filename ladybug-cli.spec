@@ -120,6 +120,11 @@ fi
 %{_libdir}/liblbug.a
 
 %changelog
+* Mon Apr 27 2026 Ally Heev <allyheev@gmail.com> - 0.15.3-2
+- Move shared runtime library to liblbug-devel subpackage
+- Move headers and static library liblbug-static subpackage
+- Mention third_party libs in the spec
+
 * Fri Apr 03 2026 Arun <arun@ladybugdb.com> - 0.15.3-1
 - Update to upstream version 0.15.3
 
