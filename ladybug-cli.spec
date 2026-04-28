@@ -1,6 +1,6 @@
 Name:           ladybug-cli
 Version:        0.15.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Embedded graph database command-line client
 
 License:        MIT
