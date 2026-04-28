@@ -1,12 +1,11 @@
 Name:           ladybug-cli
-Version:        0.15.3
-Release:        2%{?dist}
+Version:        0.15.4
+Release:        1%{?dist}
 Summary:        Embedded graph database command-line client
 
 License:        MIT
 URL:            https://ladybugdb.com/
-Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v%{version}.tar.gz#/ladybug-%{version}.tar.gz
-Patch0:         ladybug-%{version}-fix-fixed-width-integers.patch
+Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v0.15.4.2.tar.gz#/ladybug-%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -113,13 +112,17 @@ fi
 %files -n liblbug-devel
 %{_libdir}/liblbug.so
 %{_libdir}/liblbug.so.0
-%{_libdir}/liblbug.so.0.15.3
+%{_libdir}/liblbug.so.%{version}
 
 %files -n liblbug-static
 %{_includedir}/lbug.h
 %{_libdir}/liblbug.a
 
 %changelog
+* Tue Apr 28 2026 Ally Heev <allyheev@gmail.com> - 0.15.4-1
+- Update to upstream version 0.15.4
+- Remove ladybug-0.15.3-fix-fixed-width-integers.patch (fixed upstream)
+
 * Mon Apr 27 2026 Ally Heev <allyheev@gmail.com> - 0.15.3-2
 - Move shared runtime library to liblbug-devel subpackage
 - Move headers and static library liblbug-static subpackage
