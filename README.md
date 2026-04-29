@@ -7,13 +7,11 @@ This directory contains an RPM spec that mirrors the Debian split:
 
 ## Build locally
 
-1. Download source tarball:
-   - `https://github.com/LadybugDB/ladybug/archive/refs/tags/v0.15.3.tar.gz`
-2. Place tarball in your RPM `SOURCES` directory with name:
-   - `ladybug-cli-0.15.3.tar.gz`
-3. Copy `ladybug.spec` to your RPM `SPECS` directory.
-4. Build:
-   - `rpmbuild -ba ladybug.spec`
+1. Copy `ladybug-cli.spec` to your RPM `SPECS` directory.
+2. Download sources: `spectool -g -R ladybug-cli.spec`
+3. Build: `rpmbuild -ba ladybug-cli.spec`
+
+Note: You may also use [Mock](https://rpm-packaging-guide.github.io/#mock) to build in a clean chroot environment.
 
 ## Notes
 
