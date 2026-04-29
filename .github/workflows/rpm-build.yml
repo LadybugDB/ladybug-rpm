@@ -75,8 +75,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rpm-packages-${{ matrix.platform }}
-          path: ${{ github.workspace }}/results_*/**/*.rpm
-          exclude: ${{ github.workspace }}/results_*/**/*.src.rpm
+          path: |
+            ${{ github.workspace }}/results_*/**/*.rpm
+            !${{ github.workspace }}/results_*/**/*.src.rpm
 
       - name: Upload SRPM artifact
         if: success()
