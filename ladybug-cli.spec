@@ -1,12 +1,12 @@
 Name:           ladybug-cli
-Version:        0.15.3
-Release:        2%{?dist}
+Version:        0.17.1
+Release:        1%{?dist}
 Summary:        Embedded graph database command-line client
 
 License:        MIT
 URL:            https://ladybugdb.com/
 Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v%{version}.tar.gz#/ladybug-%{version}.tar.gz
-Patch0:         ladybug-%{version}-fix-fixed-width-integers.patch
+Patch0:         ladybug-%{version}-static-archive-toggle.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -67,6 +67,9 @@ Header files and static library for building applications against Ladybug.
 %cmake \
   -DBUILD_LBUG=ON \
   -DBUILD_SHELL=ON \
+  -DBUILD_SHARED_LIBS=ON \
+  -DBUILD_STATIC_LBUG=ON \
+  -DLBUG_BUNDLE_STATIC_LIBRARY=OFF \
   -DBUILD_TESTS=OFF \
   -DBUILD_EXTENSION_TESTS=OFF \
   -DBUILD_SINGLE_FILE_HEADER=OFF \
@@ -79,8 +82,30 @@ Header files and static library for building applications against Ladybug.
   -DCMAKE_INSTALL_LIBDIR=%{_libdir}
 %cmake_build
 
+# Build the static archive in a separate tree so bundled third-party libraries
+# are static for liblbug.a without forcing the shared-library build to use them.
+cmake -S . -B redhat-linux-static-build \
+  -DBUILD_LBUG=ON \
+  -DBUILD_SHELL=OFF \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DBUILD_SHARED_LBUG=OFF \
+  -DBUILD_STATIC_LBUG=ON \
+  -DLBUG_BUNDLE_STATIC_LIBRARY=ON \
+  -DBUILD_TESTS=OFF \
+  -DBUILD_EXTENSION_TESTS=OFF \
+  -DBUILD_SINGLE_FILE_HEADER=OFF \
+  -DBUILD_BENCHMARK=OFF \
+  -DBUILD_WAL_DUMP=OFF \
+  -DBUILD_JAVA=OFF \
+  -DBUILD_NODEJS=OFF \
+  -DBUILD_PYTHON=OFF \
+  -DCMAKE_CXX_FLAGS="-DHAVE_INTTYPES_H=1" \
+  -DCMAKE_INSTALL_LIBDIR=%{_libdir}
+cmake --build redhat-linux-static-build --target lbug -- %{?_smp_mflags}
+
 %install
 %cmake_install
+install -D -m 0644 redhat-linux-static-build/src/liblbug.a %{buildroot}%{_libdir}/liblbug.a
 
 # Upstream installs libraries to %{_prefix}/lib by default. Move to %{_libdir}
 # for RPM policy compliance when needed.
@@ -113,13 +138,16 @@ fi
 %files -n liblbug-devel
 %{_libdir}/liblbug.so
 %{_libdir}/liblbug.so.0
-%{_libdir}/liblbug.so.0.15.3
+%{_libdir}/liblbug.so.0.17.1
 
 %files -n liblbug-static
 %{_includedir}/lbug.h
 %{_libdir}/liblbug.a
 
 %changelog
+* Wed Jun 03 2026 Arun <arun@ladybugdb.com> - 0.17.1-1
+- Update to upstream version 0.17.1
+
 * Mon Apr 27 2026 Ally Heev <allyheev@gmail.com> - 0.15.3-2
 - Move shared runtime library to liblbug-devel subpackage
 - Move headers and static library liblbug-static subpackage
