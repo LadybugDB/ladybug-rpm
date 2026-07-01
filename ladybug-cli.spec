@@ -1,12 +1,11 @@
 Name:           ladybug-cli
-Version:        0.17.1
+Version:        0.18.0
 Release:        1%{?dist}
 Summary:        Embedded graph database command-line client
 
 License:        MIT
 URL:            https://ladybugdb.com/
 Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v%{version}.tar.gz#/ladybug-%{version}.tar.gz
-Patch0:         ladybug-%{version}-static-archive-toggle.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -138,13 +137,17 @@ fi
 %files -n liblbug-devel
 %{_libdir}/liblbug.so
 %{_libdir}/liblbug.so.0
-%{_libdir}/liblbug.so.0.17.1
+%{_libdir}/liblbug.so.0.18.0
 
 %files -n liblbug-static
 %{_includedir}/lbug.h
 %{_libdir}/liblbug.a
 
 %changelog
+* Wed Jul 01 2026 Arun <arun@ladybugdb.com> - 0.18.0-1
+- Update to upstream version 0.18.0
+- Drop static-archive-toggle patch (upstreamed)
+
 * Wed Jun 03 2026 Arun <arun@ladybugdb.com> - 0.17.1-1
 - Update to upstream version 0.17.1
 
