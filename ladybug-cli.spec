@@ -5,7 +5,7 @@ Summary:        Embedded graph database command-line client
 
 License:        MIT
 URL:            https://ladybugdb.com/
-Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v%{version}.tar.gz#/ladybug.tar.gz
+Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v%{version}.tar.gz#/ladybug-%{version}.tar.gz
 Patch0:         ladybug-static-archive-toggle.patch
 
 BuildRequires:  cmake
@@ -63,7 +63,7 @@ Requires:       liblbug%{?_isa} = %{version}-%{release}
 Header files and static library for building applications against Ladybug.
 
 %prep
-%autosetup -p1 -n ladybug
+%autosetup -p1 -n ladybug-%{version}
 
 %build
 %cmake \
@@ -151,7 +151,7 @@ fi
 - Update to upstream version 0.18.3
 - Add BuildRequires: openssl-devel >= 3.0.0, < 4.0.0 (new in 0.18.*)
 - Rename static archive patch
-- Remove version from extracted directory name
+- Fix dir naming in patch
 
 * Wed Jun 03 2026 Arun <arun@ladybugdb.com> - 0.17.1-1
 - Update to upstream version 0.17.1
