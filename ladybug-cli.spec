@@ -1,12 +1,12 @@
 Name:           ladybug-cli
-Version:        0.18.0
-Release:        2%{?dist}
+Version:        0.18.3
+Release:        1%{?dist}
 Summary:        Embedded graph database command-line client
 
 License:        MIT
 URL:            https://ladybugdb.com/
 Source0:        https://github.com/LadybugDB/ladybug/archive/refs/tags/v%{version}.tar.gz#/ladybug-%{version}.tar.gz
-Patch0:         ladybug-0.18.0-static-archive-toggle.patch
+Patch0:         ladybug-static-archive-toggle.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -140,21 +140,18 @@ fi
 %files -n liblbug-devel
 %{_libdir}/liblbug.so
 %{_libdir}/liblbug.so.0
-%{_libdir}/liblbug.so.0.18.0
+%{_libdir}/liblbug.so.%{version}
 
 %files -n liblbug-static
 %{_includedir}/lbug.h
 %{_libdir}/liblbug.a
 
 %changelog
-* Wed Jul 01 2026 Arun <arun@ladybugdb.com> - 0.18.0-2
-- Add BuildRequires: openssl-devel >= 3.0.0, < 4.0.0 (new in 0.18.0)
-- Re-add static-archive-toggle patch (fixes build failure when BUILD_SHARED_LIBS=ON
-  with BUILD_STATIC_LBUG=ON — BundleStaticLibrary.cmake got fed .so files)
-
-* Wed Jul 01 2026 Arun <arun@ladybugdb.com> - 0.18.0-1
-- Update to upstream version 0.18.0
-- Drop static-archive-toggle patch (incorrectly claimed upstreamed; was not)
+* Wed Nov 11 2026 Ally Heev <allyheev@gmail.com> - 0.18.3-1
+- Update to upstream version 0.18.3
+- Add BuildRequires: openssl-devel >= 3.0.0, < 4.0.0 (new in 0.18.*)
+- Rename static archive patch
+- Fix dir naming in patch
 
 * Wed Jun 03 2026 Arun <arun@ladybugdb.com> - 0.17.1-1
 - Update to upstream version 0.17.1
